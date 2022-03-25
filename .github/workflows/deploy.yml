@@ -1,4 +1,4 @@
-name: build
+name: deploy
 
 on:
   push:
@@ -48,6 +48,10 @@ jobs:
           faas-cli publish
           --extra-tag ${{ github.sha }}
           --platforms linux/arm/v7
+  deploy:
+    runs-on: [self-hosted, rpi]
+    needs: [build]
+    steps:
       - name: Login
         run: >
           echo ${{secrets.OPENFAAS_PASSWORD}} | 
