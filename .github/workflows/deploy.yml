@@ -52,6 +52,11 @@ jobs:
     runs-on: [self-hosted, rpi]
     needs: [build]
     steps:
+      - name: Get Repo Owner
+        id: get_repo_owner
+        run: >
+          echo ::set-output name=repo_owner::$(echo ${{ github.repository_owner }} |
+          tr '[:upper:]' '[:lower:]')
       - name: Login
         run: >
           echo ${{secrets.OPENFAAS_PASSWORD}} | 
@@ -60,4 +65,4 @@ jobs:
         run: >
           OWNER="${{ steps.get_repo_owner.outputs.repo_owner }}"
           TAG="${{ github.sha }}"
-          faas-cli deploy --gateway ${{secrets.OPENFAAS_URL}}
+          faas-cli deploy --gateway ${{secrets.OPENFAAS_URL}} --image=ghcr.io/${{github.repository_owner}}:${{github.sha}} --name=sparklepi
