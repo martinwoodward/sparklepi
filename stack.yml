@@ -1,0 +1,10 @@
+version: 1.0
+provider:
+  name: openfaas
+  gateway: http://127.0.0.1:8080
+functions:
+  sparklepi:
+    lang: node16
+    handler: ./sparklepi
+    image: ghcr.io/${OWNER:-martinwoodward}/sparklepi:${TAG:-latest}
+
