@@ -60,11 +60,9 @@ jobs:
         run: >
           echo ${{secrets.OPENFAAS_PASSWORD}} | 
           faas-cli login --gateway ${{secrets.OPENFAAS_URL}} --password-stdin
-      - name: Pull Templates
-        run: 
-          faas-cli template pull
       - name: Deploy
         run: >
           OWNER="${{ steps.get_repo_owner.outputs.repo_owner }}"
           TAG="${{ github.sha }}"
+          faas-cli template pull
           faas-cli deploy --gateway ${{secrets.OPENFAAS_URL}} -f https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/stack.yml
