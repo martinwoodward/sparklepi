@@ -64,5 +64,5 @@ jobs:
         run: >
           OWNER="${{ steps.get_repo_owner.outputs.repo_owner }}"
           TAG="${{ github.sha }}"
-          faas-cli template pull
+          faas-cli template pull;
           faas-cli deploy --gateway ${{secrets.OPENFAAS_URL}} -f https://raw.githubusercontent.com/${{ github.repository }}/${{ github.sha }}/stack.yml
