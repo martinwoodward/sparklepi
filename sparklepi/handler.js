@@ -1,13 +1,12 @@
 'use strict'
+const axios = require("axios")
 
 module.exports = async (event, context) => {
-  const result = {
-    'body': JSON.stringify(event.body),
-    'content-type': event.headers["content-type"],
-    'starlink': true
-  }
-
+  let res = await axios.get("http://api.open-notify.org/astros.json")
+  let body = `There are currently ${res.data.number} astronauts in space.`
+  
   return context
-    .status(200)
-    .succeed(result)
-}
+  .status(200)
+  .headers({"Content-type": "application/json"})
+  .succeed(body)
+  }
